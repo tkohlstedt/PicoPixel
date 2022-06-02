@@ -6,6 +6,23 @@
 "<meta content=no-cache http-equiv=pragma>\n"\
 "<meta content='no-cache, must-revalidate' http-equiv=content-type>\n"\
 "<style>body{background-color:transparent}body,div,h3,p{margin:0;padding:0;font:normal 14px omnes-pro,Helvetica,Arial,sans-serif}#header{position:relative;margin:auto}#header a{margin-left:30px}#header h2{vertical-align:middle;font-size:42px;font-weight:700;text-decoration:none;color:#000;margin-left:30px;text-align:left}.usual{background:0 0;color:#111;padding:15px 20px;width:auto;margin:8px auto}.usual li{list-style:none;float:left}.usual ul a{display:block;padding:6px 10px;text-decoration:none!important;margin:1px;margin-left:0;font-weight:700;color:#fff;background:#aaa}.usual ul a:hover{color:#111;background:#eef3ff}.usual ul a.selected{margin-bottom:0;color:#000;background:#eef3ff;border-bottom:1px solid snow;cursor:default}.usual div{padding:10px 10px 8px 10px;clear:left;background:#eef3ff}.usual div a{color:#000;font-weight:700}.hide{display:none}.show{display:block}.mr5{margin-right:5px}.red{color:red}.usual div h3{margin-top:10px;margin-left:10px;font-size:24px;text-decoration:none;font-weight:700;color:#00f}.usual div p{margin-top:0;margin-bottom:10px}.ipt label{float:left;padding-top:3px;text-align:left;width:130px}.pwd label{float:left;margin-left:-5px;padding-top:3px;text-align:left;width:160px}.di-led{margin-top:2px;margin-right:10px;margin:5px auto;border:0 dashed #ccc;height:28px;width:28px;display:block}.di-on{background-image:url(img/di_on.png)}.dio-on{background-image:url(img/dio_on.png)}.di-off{background-image:url(img/di_off.png)}.d-no-use{background-image:url(img/notused.png)}.do-led{margin-top:2px;margin-right:20px;margin:5px auto;border:0 dashed #ccc;height:33px;width:96px;display:block}.do-on{background-image:url(img/do_on.png)}.do-off{background-image:url(img/do_off.png)}.io-dir{margin-top:5px;margin-bottom:5px;text-align:center;font-weight:700}.onboard-led{margin-top:2px;margin-right:10px;margin:5px auto;border:0 dashed #ccc;height:28px;width:28px;display:block}.led-on{background-image:url(img/di_on.png)}.led-off{background-image:url(img/di_off.png)}.div-analog{margin-left:30px;padding:0}.analog{margin-top:2px;margin-right:10px;border:1px solid #ccc;height:20px;width:500px;display:block}.io ul{margin-top:5px;margin-bottom:90px}.io li{margin-left:10px;margin-right:10px;list-style:none;float:left;text-align:center}.pointer{cursor:pointer}.ain{width:0%;height:100%;text-align:center;background:red;float:left;display:block}.conf-menu span{float:left}.conf-menu label{float:left;padding-top:3px;text-align:center;vertical-align:middle;width:70px}.conf-menu ul{margin-top:5px;margin-bottom:600px}.conf-menu li{padding-left:20px;padding-right:20px;list-style:none;float:left;text-align:center;font-weight:700;clear:both}.info label{float:left;text-align:left;width:100px}.info li{text-align:center;clear:both}.info span{vertical-align:middle;float:left;text-align:left;display:block;padding:0;border:0;margin:0}.info div{margin:0 auto;text-align:center;display:table-cell;vertical-align:middle;padding:0 15px 10px 0;background:#ffe4e1}a.tooltip{outline:0}a.tooltip strong{line-height:30px}a.tooltip:hover{text-decoration:none}a.tooltip span{z-index:10;display:none;padding:14px 20px;margin-top:-30px;margin-left:28px;width:150px;line-height:16px}a.tooltip:hover span{display:inline;position:absolute;color:#111;border:1px solid #dca;background:#fffaf0}.callout{z-index:20;position:absolute;top:30px;border:0;left:-12px}a.tooltip span{border-radius:4px;box-shadow:5px 5px 8px #ccc}.btn{background:#3498db;background-image:-webkit-linear-gradient(top,#3498db,#2980b9);background-image:-moz-linear-gradient(top,#3498db,#2980b9);background-image:-ms-linear-gradient(top,#3498db,#2980b9);background-image:-o-linear-gradient(top,#3498db,#2980b9);background-image:linear-gradient(to bottom,#3498db,#2980b9);-webkit-border-radius:28;-moz-border-radius:28;border-radius:28px;color:#fff;font-size:13px;padding:3px 10px 3px 10px;text-decoration:none}.btn:hover{background:#3cb0fd;background-image:-webkit-linear-gradient(top,#3cb0fd,#3498db);background-image:-moz-linear-gradient(top,#3cb0fd,#3498db);background-image:-ms-linear-gradient(top,#3cb0fd,#3498db);background-image:-o-linear-gradient(top,#3cb0fd,#3498db);background-image:linear-gradient(to bottom,#3cb0fd,#3498db);cursor:pointer;text-decoration:none}.width-onoff{width:60px;display:inline-block}.btn-on{background:#3498db}.btn-off{background:silver}</style>\n"\
+"\n"\
+"<script type='text/javascript' src='jscolor.js'></script> \n"\
+"<script> \n"\
+"// Here we can adjust defaults for all color pickers on page: \n"\
+"jscolor.presets.default = { \n"\
+"   palette: [ \n"\
+"	    '#FF0000', '#00FF00', '#0000FF', '#ffffff' \n"\
+"	], \n"\
+"	paletteCols: 4, \n"\
+"	hideOnPaletteClick: true, \n"\
+"	//width: 271, \n"\
+"	//height: 151, \n"\
+"	position: 'right', \n"\
+"	previewPosition: 'right', \n"\
+"	backgroundColor: 'rgba(51,51,51,1)', controlBorderColor: 'rgba(153,153,153,1)', buttonColor: 'rgba(240,240,240,1)', \n"\
+"	} \n"\
+"</script> \n"\
 "<script>\n"\
 "var tabLinks=new Array(); \n"\
 " var divContents=new Array(); \n"\
@@ -431,6 +448,27 @@
 "	 setTimeout('updatePortConfig()',800*1);\n"\
 " }\n"\
 " \n"\
+" function testmode_set(o){\n"\
+" 	 setTimeout(function(){ 		 \n"\
+"		 dout=new AJAX('set_testmode.cgi', function(t){ \n"\
+"		 	try{eval(t);}catch(e){alert(e);} \n"\
+"		 }); \n"\
+"		 dout.doPost('testmode='+o); 		 \n"\
+"	 },300);\n"\
+" }\n"\
+" \n"\
+" function testtype_set(o){\n"\
+" 	 var p=o.attributes['port'].value;\n"\
+"    var ttype=$('selTmode_p'+p).value; \n"\
+"	 var col=$('txtColor_p'+p).value;	 \n"\
+" 	 setTimeout(function(){ 		 \n"\
+"		 dout=new AJAX('set_testpattern.cgi', function(t){ \n"\
+"		 	try{eval(t);}catch(e){alert(e);} \n"\
+"		 }); \n"\
+"		 dout.doPost('port='+p+'&testtype='+ttype+'&color='+col); 		 \n"\
+"	 },300);\n"\
+" }\n"\
+" \n"\
 " function io_status_factory_reset(){ \n"\
 " 	var v=1;	 \n"\
 "	if(confirm('Factory Reset: IO Direction / Status / Alias?'))\n"\
@@ -853,25 +891,89 @@
 "<input type=submit value='Save Settings and Reboot' class=btn>\n"\
 "</div>\n"\
 "</form>\n"\
+"</div>\n"\
 \
 "<div class=hide id=tabs3>\n"\
 "<h3>Output Test Menu</h3>\n"\
+"<p>\n"\
+"<h4>Operating Mode</h4>\n"\
+"<input id=rdRun name=tmode onclick=testmode_set(this.value); type=radio value=0 checked><label for=rdRun>Run</label>\n"\
+"<input id=rdTest name=tmode onclick=testmode_set(this.value); type=radio value=1><label for=rdTest>Test</label>\n"\
+"</p>\n"\
 "<table>\n"\
 "<thead><tr><th>Port</th><th>Test mode</th><th>Color</th></tr></thead>\n"\
 "<tbody>\n"\
 "<tr><td>P0</td>\n"\
-"<td><select id=selTmode_p0 name=Tmode_p0>\n"\
+"<td><select id=selTmode_p0 name=Tmode_p0 onchange=testtype_set(this); port=0>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><select id=selColor_p0 name=Color_p0>\n"\
-"<option value=0>Red</option>\n"\
-"<option value=1>Green</option>\n"\
-"<option value=2>Blue</option>\n"\
-"<option value=3>White</option>\n"\
+"<td><input id=txtColor_p0 name=Color_p0 value='3399FF' onchange=testtype_set(this); port=0 data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P1</td>\n"\
+"<td><select id=selTmode_p1 name=Tmode_p1>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
+"<td><input id=txtColor_p1 name=Color_p1 value='3399FF' data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P2</td>\n"\
+"<td><select id=selTmode_p2 name=Tmode_p2>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
+"</select></td>\n"\
+"<td><input id=txtColor_p2 name=Color_p2 value='3399FF' data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P3</td>\n"\
+"<td><select id=selTmode_p3 name=Tmode_p3>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
+"</select></td>\n"\
+"<td><input id=txtColor_p3 name=Color_p3 value='3399FF' data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P4</td>\n"\
+"<td><select id=selTmode_p4 name=Tmode_p4>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
+"</select></td>\n"\
+"<td><input id=txtColor_p4 name=Color_p4 value='3399FF' data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P5</td>\n"\
+"<td><select id=selTmode_p5 name=Tmode_p5>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
+"</select></td>\n"\
+"<td><input id=txtColor_p5 name=Color_p5 value='3399FF' data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P6</td>\n"\
+"<td><select id=selTmode_p6 name=Tmode_p6>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
+"</select></td>\n"\
+"<td><input id=txtColor_p6 name=Color_p6 value='3399FF' data-jscolor='{}'></td>\n"\
+"</tr>\n"\
+"<tr><td>P7</td>\n"\
+"<td><select id=selTmode_p7 name=Tmode_p7>\n"\
+"<option value=0>Off</option>\n"\
+"<option value=1>Solid</option>\n"\
+"<option value=2>Chase</option>\n"\
+"<option value=3>Color Wash</option>\n"\
+"</select></td>\n"\
+"<td><input id=txtColor_p7 name=Color_p7 value='3399FF' data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "</tbody></table>\n"\
 "</div>\n"\
@@ -1188,4 +1290,6 @@
 "©Copyright 2014 WIZnet Co., Ltd.\n"\
 "</center>\n"\
 "</div>\n"\
-"<script src=widget.cgi></script>\n"
+"<script src='widget.cgi'></script>\n"\
+"</body>\n"\
+"</html>\n"

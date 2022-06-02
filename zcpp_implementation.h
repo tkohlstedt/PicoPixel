@@ -8,7 +8,7 @@ typedef struct _zcppParam
     int universeEnd;
     char controller_name[32];
     char *buffer;
-    thread_ctrl *hwconfig;
+    volatile thread_ctrl *hwconfig;
 } zcppParam;
 
 void zcppInit(uint8_t (*nb)[ETHERNET_BUF_MAX_SLOTS][ETHERNET_BUF_MAX_SIZE], uint16_t (*nbp)[ETHERNET_BUF_MAX_SLOTS]);

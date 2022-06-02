@@ -52,10 +52,13 @@ void *acn_listen(void *listen_parameters)
                 {
                     len = params->universeSize;
                 }
-            memcpy(pixelbuffer + buffer_offset,acn_packet->DMP.Properties.Data,len);   
+                if(params->hwconfig->run_mode==MODE_RUN)
+                {
+                    memcpy(pixelbuffer + buffer_offset,acn_packet->DMP.Properties.Data,len);   
 #ifdef _ACN_DEBUG_
     printf("Universe %d sequence %i Length %d\n\r",universe,getSequence(data),len);
 #endif
+                }
             }
         }
         (*net_buffer_ptr)[buffer_slot_ptr++] = 0;  // Mark slot as processed

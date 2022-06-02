@@ -60,7 +60,7 @@ typedef struct _acnParam
 	int universeSize;
     char controller_name[32];
     char *buffer;
-    thread_ctrl *hwconfig;
+    volatile thread_ctrl *hwconfig;
 } acnParam;
 
 //  Initialize the listener

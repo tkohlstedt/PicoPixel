@@ -338,6 +338,24 @@ uint16_t ATOI(
 }
 
 /**
+@brief	CONVERT STRING INTO INTEGER
+@return	a integer number
+*/
+uint32_t ATOL(
+	uint8_t * str,	/**< is a pointer to convert */
+	uint8_t base	/**< is a base value (must be in the range 2 - 16) */
+	)
+{
+        uint32_t num = 0;
+// debug_2013_11_25
+//        while (*str !=0)
+        while ((*str !=0) && (*str != 0x20)) // not include the space(0x020)
+                num = num * base + C2D(*str++);
+	return num;
+}
+
+
+/**
  * @brief Check strings and then execute callback function by each string.
  * @param src The information of URI
  * @param s1 The start string to be researched

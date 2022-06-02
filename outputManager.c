@@ -38,6 +38,8 @@ void outputInit(thread_ctrl *worker)
 {
     for(int a = 0;a<PIXEL_PORTS;a++)
         {dma_chan[a] = 0;}
+    // update pointer to config
+    config = worker;
 
     dev_config = get_CFG_Packet_pointer();
 
@@ -82,10 +84,13 @@ void outputInit(thread_ctrl *worker)
                 false             // Don't start yet
             );
     printf("configured port %i offset %i pin %i dma %i \n\r",port_id,offset_map[pio_num][1],dev_config->io.pin[port_id],dma_chan[port_id]);
+            config->led_string[port_id].active[0] = 1;
+        }else
+        {
+            config->led_string[port_id].active[0] = 0;
         }
+
     }
-    // update pointer to config
-    config = worker;
 }
 
 void outputTrigger(struct repeating_timer *timer_data)
@@ -99,7 +104,7 @@ void outputWork()
     for(port_id=0;port_id < PIXEL_PORTS;port_id++)
     {
         // start port 0
-        if ((!dma_channel_is_busy(dma_chan[port_id])) && (dma_chan[port_id]))
+        if ((dma_chan[port_id]) && (!dma_channel_is_busy(dma_chan[port_id])))
         {
     #ifdef _OUTPUT_DEBUG_
             printf("Output %i Start %d Channels %d\n\r",port_id,config->led_string[port_id].start_channel[0],config->led_string[port_id].channel_count[0]);

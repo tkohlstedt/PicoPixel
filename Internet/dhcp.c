@@ -165,6 +165,7 @@ enum
    dhcpT2value             = 59,
    dhcpClassIdentifier     = 60,
    dhcpClientIdentifier    = 61,
+   dhcpClientFQDN		   = 81,
    endOption               = 255
 };
 
@@ -216,6 +217,8 @@ uint32_t DHCP_XID;      // Any number
 RIP_MSG* pDHCPMSG;      // Buffer pointer for DHCP processing
 
 uint8_t HOST_NAME[32]; // = DCHP_HOST_NAME;  
+uint8_t FQDN[255]; // Fully Qualified Domain Name
+uint8_t DOMAIN_NAME[255]; // domain name from offer
 
 uint8_t DHCP_CHADDR[6]; // DHCP Client MAC address.
 
@@ -391,13 +394,6 @@ void send_DHCP_DISCOVER(void)
 	pDHCPMSG->OPT[k++] = 0;          // fill zero length of hostname 
 	for(i = 0 ; HOST_NAME[i] != 0; i++)
    	pDHCPMSG->OPT[k++] = HOST_NAME[i];
-/*	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[3] >> 4); 
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[3]);
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[4] >> 4); 
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[4]);
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[5] >> 4); 
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[5]); 
-	pDHCPMSG->OPT[k - (i+6+1)] = i+6; // length of hostname */
 	pDHCPMSG->OPT[k - (i + 1)] = i; //length of hostname
 
 	pDHCPMSG->OPT[k++] = dhcpParamRequest;
@@ -428,9 +424,10 @@ void send_DHCP_DISCOVER(void)
 /* SEND DHCP REQUEST */
 void send_DHCP_REQUEST(void)
 {
-	int i;
+	int i,j;
 	uint8_t ip[4];
 	uint16_t k = 0;
+	int32_t sendstatus;
 
    makeDHCPMSG();
 
@@ -494,15 +491,28 @@ void send_DHCP_REQUEST(void)
 	pDHCPMSG->OPT[k++] = 0; // length of hostname
 	for(i = 0 ; HOST_NAME[i] != 0; i++)
    	pDHCPMSG->OPT[k++] = HOST_NAME[i];
-/*	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[3] >> 4); 
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[3]);
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[4] >> 4); 
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[4]);
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[5] >> 4); 
-	pDHCPMSG->OPT[k++] = NibbleToHex(DHCP_CHADDR[5]); 
-	pDHCPMSG->OPT[k - (i+6+1)] = i+6; // length of hostname */
 	pDHCPMSG->OPT[k - (i + 1)] = i; //length of hostname
-	
+
+	// Fully Qualified Domain Name
+	// First concatenate the hostname and domain name
+	for(i=0;HOST_NAME[i] != 0;i++)
+		FQDN[j++] = HOST_NAME[i];
+	FQDN[j++] = '.';
+	for(i=0;DOMAIN_NAME[i] != 0;i++)
+		FQDN[j++] = DOMAIN_NAME[i];
+	FQDN[j] = 0;
+	// Now copy the FQDN into the option
+	pDHCPMSG->OPT[k++] = dhcpClientFQDN;
+	pDHCPMSG->OPT[k++] = 0; // length of FQDN
+	pDHCPMSG->OPT[k++] = 1; // Flags N=0,E=0,O=0,S=1
+	pDHCPMSG->OPT[k++] = 0; //RCODE1
+	pDHCPMSG->OPT[k++] = 0; //RCODE2
+	for(i = 0; FQDN[i] != 0; i++)
+	pDHCPMSG->OPT[k++] = FQDN[i];
+	pDHCPMSG->OPT[k - (i + 1 + 3)] = i + 3; //length of FQDN
+#ifdef _DHCP_DEBUG_
+	printf("> FQDN: %s Len: %i\r\n",FQDN,pDHCPMSG->OPT[k - (i + 1 + 3)]);
+#endif	
 	pDHCPMSG->OPT[k++] = dhcpParamRequest;
 	pDHCPMSG->OPT[k++] = 0x08;
 	pDHCPMSG->OPT[k++] = subnetMask;
@@ -517,12 +527,12 @@ void send_DHCP_REQUEST(void)
 
 	for (i = k; i < OPT_SIZE; i++) pDHCPMSG->OPT[i] = 0;
 
+	sendstatus = sendto(DHCP_SOCKET, (uint8_t *)pDHCPMSG, RIP_MSG_SIZE, ip, DHCP_SERVER_PORT);
+
 #ifdef _DHCP_DEBUG_
-	printf("> Send DHCP_REQUEST\r\n");
+	printf("> Send DHCP_REQUEST %s Ret: %i, Len: %i\r\n",HOST_NAME,sendstatus,RIP_MSG_SIZE);
 #endif
 	
-	sendto(DHCP_SOCKET, (uint8_t *)pDHCPMSG, RIP_MSG_SIZE, ip, DHCP_SERVER_PORT);
-
 }
 
 /* SEND DHCP DHCPDECLINE */
@@ -596,12 +606,13 @@ int8_t parseDHCPMSG(void)
 	uint8_t * e;
 	uint8_t type = 0;
 	uint8_t opt_len;
+	uint8_t i;
    
    if((len = getSn_RX_RSR(DHCP_SOCKET)) > 0)
    {
    	len = recvfrom(DHCP_SOCKET, (uint8_t *)pDHCPMSG, len, svr_addr, &svr_port);
    #ifdef _DHCP_DEBUG_   
-      printf("DHCP message : %d.%d.%d.%d(%d) %d received. \r\n",svr_addr[0],svr_addr[1],svr_addr[2], svr_addr[3],svr_port, len);
+//      printf("DHCP message : %d.%d.%d.%d(%d) %d received. \r\n",svr_addr[0],svr_addr[1],svr_addr[2], svr_addr[3],svr_port, len);
    #endif   
    }
    else return 0;
@@ -612,7 +623,7 @@ int8_t parseDHCPMSG(void)
 		     (pDHCPMSG->chaddr[4] != DHCP_CHADDR[4]) || (pDHCPMSG->chaddr[5] != DHCP_CHADDR[5])   )
 		{
 #ifdef _DHCP_DEBUG_
-            printf("No My DHCP Message. This message is ignored.\r\n");
+ //           printf("Not My DHCP Message. This message is ignored.\r\n");
 #endif
          return 0;
 		}
@@ -681,7 +692,7 @@ int8_t parseDHCPMSG(void)
    				dhcp_lease_time  = (dhcp_lease_time << 8) + *p++;
             #ifdef _DHCP_DEBUG_  
                dhcp_lease_time = 10;
- 				#endif
+ 			#endif
    				break;
    			case dhcpServerIdentifier :
    				p++;
@@ -695,6 +706,15 @@ int8_t parseDHCPMSG(void)
                 DHCP_REAL_SIP[2]=svr_addr[2];
                 DHCP_REAL_SIP[3]=svr_addr[3];
    				break;
+			case domainName :
+				p++;
+				opt_len = *p++;
+				for (i=0;i<opt_len;i++)
+				{
+					DOMAIN_NAME[i] = *p++;
+				}
+				DOMAIN_NAME[i] = 0; //terminate the domain name
+				break;
    			default :
    				p++;
    				opt_len = *p++;
@@ -703,6 +723,13 @@ int8_t parseDHCPMSG(void)
 			} // switch
 		} // while
 	} // if
+   #ifdef _DHCP_DEBUG_   
+		printf("Type: %02X Received: %02X:%02X:%02X:%02X:%02X:%02X Me: %02X:%02X:%02X:%02X:%02X:%02X\r\n",
+		type, pDHCPMSG->chaddr[0],pDHCPMSG->chaddr[1],pDHCPMSG->chaddr[2],pDHCPMSG->chaddr[3],pDHCPMSG->chaddr[4],
+		pDHCPMSG->chaddr[5],DHCP_CHADDR[0],DHCP_CHADDR[1],DHCP_CHADDR[2],DHCP_CHADDR[3],DHCP_CHADDR[4],
+		DHCP_CHADDR[5]);
+   #endif   
+
 	return	type;
 }
 
@@ -710,9 +737,10 @@ uint8_t DHCP_run(void)
 {
 	uint8_t  type;
 	uint8_t  ret;
+	static uint8_t last_dhcp_state = DHCP_STOPPED;
 
 	if(dhcp_state == STATE_DHCP_STOP) return DHCP_STOPPED;
-
+	
 	if(getSn_SR(DHCP_SOCKET) != SOCK_UDP)
 	   socket(DHCP_SOCKET, Sn_MR_UDP, DHCP_CLIENT_PORT, 0x00);
 
@@ -831,6 +859,14 @@ uint8_t DHCP_run(void)
 	   	break;
 		default :
    		break;
+	}
+	if (dhcp_state != last_dhcp_state)
+	{
+		last_dhcp_state = dhcp_state;
+#ifdef _DHCP_DEBUG_
+	printf("\r\n> New DHCP state %i\r\n",last_dhcp_state);
+#endif
+
 	}
 
 	return ret;

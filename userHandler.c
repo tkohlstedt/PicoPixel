@@ -445,6 +445,59 @@ uint8_t set_netinfo(uint8_t * uri)
 	return ret;
 }
 
+int8_t set_test_mode(uint8_t * uri)
+{
+	uint8_t * param;
+	uint8_t tmode = 0;
+	thread_ctrl *hwconfig = get_running_config();
+
+	if((param = get_http_param_value((char *)uri, "testmode"))) 
+	{
+		tmode = (uint8_t)ATOI(param, 10);
+	}
+
+	hwconfig->run_mode = tmode;
+	printf("Run mode: %i\n",hwconfig->run_mode);
+	return tmode;
+
+}
+
+int8_t set_test_pattern(uint8_t * uri)
+{
+	uint8_t * param;
+	uint8_t str_size = 0;
+	uint8_t port;
+	uint8_t testtype;
+	uint32_t color;
+
+	//CFG_Packet * config = get_CFG_Packet_pointer();
+	thread_ctrl *running_config = get_running_config();
+
+/*	    uint8_t port[16];
+    uint32_t start_channel[16];
+    uint32_t channel_count[16];
+*/
+	if((param = get_http_param_value((char *)uri, "port"))) 
+	{
+		port = (uint8_t)ATOI(param, 10);
+		if(port > 15) return -1;
+
+		if((param = get_http_param_value((char *)uri, "testtype")))  
+		{
+			testtype = (uint8_t)ATOI(param,10);
+			if((param = get_http_param_value((char *)uri,"color")))
+			{
+				color = (uint32_t)ATOL(&param[1],16);
+			}
+			running_config->led_string[port].test_mode[0] = testtype;
+			running_config->led_string[port].test_color[0] = color;
+printf("Port:%i TestType:%i Color:%#010x\n\r",port,testtype,color);
+		}
+	}
+
+	return port;
+}
+
 int8_t set_channel(uint8_t * uri)
 {
 	uint8_t * param;
@@ -542,6 +595,18 @@ uint8_t predefined_set_cgi_processor(uint8_t * uri_name, uint8_t * uri, uint8_t 
 		device_ip = set_port_config_setting(uri);
 		make_cgi_basic_config_response_page(10, device_ip, buf, len);
 		ret = HTTP_RESET;
+	}
+	// Test Mode Control
+	else if(strcmp((const char *)uri_name, "set_testmode.cgi") == 0)
+	{
+		val = set_test_mode(uri);
+		*len = sprintf((char *)buf, "%d", val);
+	}
+	// Test pattern Control
+	else if(strcmp((const char *)uri_name, "set_testpattern.cgi") == 0)
+	{
+		val=set_test_pattern(uri);
+		*len = sprintf((char *)buf, "%d",val);
 	}
 	// Devinfo; devname
 	else if(strcmp((const char *)uri_name, "set_devinfo.cgi") == 0)

@@ -21,12 +21,14 @@
 #include "httpServer.h"
 #include "userHandler.h"
 #include "web_page.h"
+#include "jscolor_js.h"
 #include "PicoPixel.h"
 #include "networkManager.h"
 #include "zcpp_implementation.h"
 #include "acn.h"
 #include "outputManager.h"
 #include "eepromManager.h"
+#include "effects.h"
 
 #include <pico/multicore.h>
 #include <pico/unique_id.h>
@@ -59,6 +61,8 @@ static wiz_NetInfo g_net_info =
 uint8_t my_dhcp_retry = 0;
 bool run_user_applications;
 char hostname[32];
+repeating_timer_t dhcp_timer;
+
 
 /*****************************************************************************
  * Private functions
@@ -181,7 +185,9 @@ int main()
 		// if you want different action instead default ip assign, update, conflict.
 		// if cbfunc == 0, act as default.
 		reg_dhcp_cbfunc(my_ip_assign, my_ip_assign, my_ip_conflict);
-
+    // need a 1 second timer callback
+		add_repeating_timer_ms(1000,(repeating_timer_callback_t)DHCP_time_handler,NULL,&dhcp_timer);
+    // don't start processing until an IP address is assigned
 		run_user_applications = false; 	
 	} else
   {
@@ -193,6 +199,8 @@ int main()
 
     /* Register web page */
 	  reg_httpServer_webContent((uint8_t *)"index.html", (uint8_t *)index_page);				// index.html 		: Main page example
+    reg_httpServer_webContent((uint8_t *)"jscolor.js", (uint8_t *)jscolor_script);
+
 
     /* wait a few seconds for serial connection */
     sleep_ms(5000);
@@ -211,12 +219,14 @@ int main()
     universe_size = dev_config->proto.usize;
     pixel_port_count = PIXEL_PORTS;
 
+    hwconfig.run_mode = MODE_RUN;
+
     // allocate and clear the pixelbuffer
     pixelBuffer = malloc(PIXEL_BUFFER_SIZE);
     memset(pixelBuffer,0,PIXEL_BUFFER_SIZE);
 
     // clear the hw config
-    memset(&hwconfig,0,sizeof(thread_ctrl));
+    memset((void *)&hwconfig,0,sizeof(thread_ctrl));
     hwconfig.buffer = pixelBuffer;
     hwconfig.pixel_ports = PIXEL_PORTS;
     // set the channel config from saved config
@@ -264,6 +274,9 @@ int main()
     struct repeating_timer timer;
     add_repeating_timer_ms(50,(repeating_timer_callback_t)outputWork,NULL,&timer);
 
+    //Initialize the test mode
+    test_init(&hwconfig);
+
 
     /* Infinite loop */
     while (1)
@@ -274,6 +287,7 @@ int main()
         {
           case DHCP_IP_ASSIGN:
           case DHCP_IP_CHANGED:
+            print_network_information(g_net_info);
             break;
           case DHCP_IP_LEASED:
             run_user_applications = true;
@@ -284,7 +298,7 @@ int main()
             break;
         }
     	}
-      if(run_user_applications)
+    if(run_user_applications)
       {
         /* Run HTTP server */
         for (i = 0; i < HTTP_SOCKET_MAX_NUM; i++)
@@ -298,8 +312,35 @@ int main()
         {
             acn_listen(&acn_listen_param);
         }
+        if(hwconfig.run_mode == MODE_TEST)
+        {
+          test_run();
+        }
       }
     }
+}
+
+//
+// Return a pointer to the running config
+//
+thread_ctrl *get_running_config()
+{
+  return &hwconfig;
+}
+//
+// Set the global run/test mode
+//
+void set_run_mode(uint8_t mode)
+{
+  hwconfig.run_mode = mode;
+}
+//
+// Return the global run/test mode
+// 0=Run,1=Test
+//
+uint8_t get_run_mode()
+{
+  return hwconfig.run_mode;
 }
 
 static void Net_Conf()

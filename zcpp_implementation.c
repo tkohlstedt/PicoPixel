@@ -115,7 +115,6 @@ void zcpp_process_data(ZCPP_packet_t *data, char *pixelbuffer)
 #ifdef _ZCPP_DEBUG_
     printf("Frame %d Offset %i Length %d\n\r",data->Data.sequenceNumber,buffer_offset,len);
 #endif
-
 }
 
 void zcpp_process_sync(ZCPP_packet_t *data)
@@ -139,6 +138,9 @@ void *zcpp_listen(void *listen_parameters)
     int buffer_offset;
     zcppParam *params = listen_parameters;
     char *pixelbuffer = params->buffer;
+    uint8_t run_mode;
+    
+    run_mode = params->hwconfig->run_mode;
 
     while((*net_buffer_ptr)[buffer_slot_ptr])
     {
@@ -146,7 +148,7 @@ void *zcpp_listen(void *listen_parameters)
         printf("ZCPP processing slot %d\n\r",buffer_slot_ptr);
 #endif        
         zcpp_packet = (ZCPP_packet_t*)(*net_buffer)[buffer_slot_ptr];
-        if(!strncmp(zcpp_packet->Data.Header.token,ZCPP_token,4))
+        if(!strncmp(zcpp_packet->Data.Header.token,ZCPP_token,4) && (run_mode == MODE_RUN))
         {
             switch (zcpp_packet->Discovery.Header.type)
             {
