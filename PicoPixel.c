@@ -116,7 +116,7 @@ int main()
     uint8_t i = 0;
     uint32_t ret = 0;
 
-    stdio_init_all();
+    stdio_init_all();  
 
     /* wait a few seconds for serial connection */
     sleep_ms(5000);

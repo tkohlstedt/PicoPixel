@@ -4,3 +4,6 @@
 [submodule "libraries/mbedtls"]
 	path = libraries/mbedtls
 	url = https://github.com/mbed-TLS/mbedtls.git
+[submodule "Pico-DMX"]
+	path = Pico-DMX
+	url = https://github.com/jostlowe/Pico-DMX.git

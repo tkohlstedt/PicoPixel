@@ -60,6 +60,7 @@ enum{
 enum{
    TEST_OFF = 0,
    TEST_SOLID,
+   TEST_CHASE,
    TEST_COLORWASH,
    TEST_KITT,
    TEST_RUNNING_LIGHTS,

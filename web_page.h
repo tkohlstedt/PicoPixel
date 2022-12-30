@@ -913,67 +913,67 @@
 "<td><input id=txtColor_p0 name=Color_p0 value='3399FF' onchange=testtype_set(this); port=0 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P1</td>\n"\
-"<td><select id=selTmode_p1 name=Tmode_p1>\n"\
+"<td><select id=selTmode_p1 name=Tmode_p1 onchange=testtype_set(this); port=1>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p1 name=Color_p1 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p1 name=Color_p1 value='3399FF' onchange=testtype_set(this); port=1 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P2</td>\n"\
-"<td><select id=selTmode_p2 name=Tmode_p2>\n"\
+"<td><select id=selTmode_p2 name=Tmode_p2 onchange=testtype_set(this); port=2>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p2 name=Color_p2 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p2 name=Color_p2 value='3399FF' onchange=testtype_set(this); port=2 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P3</td>\n"\
-"<td><select id=selTmode_p3 name=Tmode_p3>\n"\
+"<td><select id=selTmode_p3 name=Tmode_p3 onchange=testtype_set(this); port=3>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p3 name=Color_p3 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p3 name=Color_p3 value='3399FF' onchange=testtype_set(this); port=3 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P4</td>\n"\
-"<td><select id=selTmode_p4 name=Tmode_p4>\n"\
+"<td><select id=selTmode_p4 name=Tmode_p4 onchange=testtype_set(this); port=4>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p4 name=Color_p4 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p4 name=Color_p4 value='3399FF' onchange=testtype_set(this); port=4 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P5</td>\n"\
-"<td><select id=selTmode_p5 name=Tmode_p5>\n"\
+"<td><select id=selTmode_p5 name=Tmode_p5 onchange=testtype_set(this); port=5>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p5 name=Color_p5 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p5 name=Color_p5 value='3399FF' onchange=testtype_set(this); port=5 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P6</td>\n"\
-"<td><select id=selTmode_p6 name=Tmode_p6>\n"\
+"<td><select id=selTmode_p6 name=Tmode_p6 onchange=testtype_set(this); port=6>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p6 name=Color_p6 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p6 name=Color_p6 value='3399FF' onchange=testtype_set(this); port=6 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "<tr><td>P7</td>\n"\
-"<td><select id=selTmode_p7 name=Tmode_p7>\n"\
+"<td><select id=selTmode_p7 name=Tmode_p7 onchange=testtype_set(this); port=7>\n"\
 "<option value=0>Off</option>\n"\
 "<option value=1>Solid</option>\n"\
 "<option value=2>Chase</option>\n"\
 "<option value=3>Color Wash</option>\n"\
 "</select></td>\n"\
-"<td><input id=txtColor_p7 name=Color_p7 value='3399FF' data-jscolor='{}'></td>\n"\
+"<td><input id=txtColor_p7 name=Color_p7 value='3399FF' onchange=testtype_set(this); port=7 data-jscolor='{}'></td>\n"\
 "</tr>\n"\
 "</tbody></table>\n"\
 "</div>\n"\
